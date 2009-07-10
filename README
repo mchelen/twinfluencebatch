@@ -1,6 +1,35 @@
-Author: Michael Chelen http://mikechelen.com
+Twinfluence Batch
 
-Please be aware that this code is experimental and may malfunction.
+Please be aware, THIS CODE IS EXPERIMENTAL and may MALFUNCTION.
+
+Password is sent insecurely! Use with a test account.
+
+Command Line usage:
+
+php twinfluence.php USERNAME PASSWORD CACHEONLY URL DELAY MAXDELAY
+
+Username: the twitter account used to authenticate
+Password: the account's password
+Cacheonly: TRUE/FALSE should twinfluence return its cached results or not
+Url: the Url to the list of accounts to check, as CSV or TSV
+Delay: the initial delay between calls
+Maxdelay: the maximum retry delay before giving up 
+
+
+Web based usage:
+
+View twinfluence.php through a browser and fill in the form.
+
+
+Notes:
+To disable retries, set the retry and max retry times to the same value.
+
+If unspecificed, retry defaults to 1/1000 of a second and max retry to 1 second.        
+
+To save the results to file from the command line, append " > filename.xml" to the command
+
+
+Author: Michael Chelen http://mikechelen.com
 
 Released under Creative Commons Public Domain CC0
 
