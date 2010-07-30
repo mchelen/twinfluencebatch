@@ -6,12 +6,12 @@ Password is sent insecurely! Use with a test account.
 
 Command Line usage:
 
-php twinfluence.php USERNAME PASSWORD CACHEONLY URL DELAY MAXDELAY
+php twinfluence.php USERNAME PASSWORD URL CACHEONLY DELAY MAXDELAY
 
 Username: the twitter account used to authenticate
 Password: the account's password
-Cacheonly: TRUE/FALSE should twinfluence return its cached results or not
 Url: the Url to the list of accounts to check, as CSV or TSV
+Cacheonly: TRUE/FALSE should twinfluence return its cached results or not
 Delay: the initial delay between calls
 Maxdelay: the maximum retry delay before giving up 
 

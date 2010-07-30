@@ -9,32 +9,42 @@
  */
 
 // accepts input either through form GET or command line arguments
-if ($argc > 1 || isset($_GET["user"])) {
+if ($argc >= 3 || isset($_GET["user"])) {
     // use command line arguments if they exist
-    if ($argc > 1) {
-        // echo "first " . $argv[0];
+    if ($argc >= 3) {
+        echo "\n";
+        echo "Command line arguments found\n";
         $user = $argv[1];
+        echo "User: $user\n";
         $pwd = $argv[2];
-        $cacheonly = $argv[3];
-        $idListUrl = $argv[4];
+        echo "Pass: $pwd\n";
+        $idListUrl = $argv[3];
+        echo "List URL: $idListUrl\n";
+        if(isset($argv[4])){
+            $cacheonly = $argv[4];
+        }
+        else {
+            $cacheonly = true; // only cached results are used
+        }
+        echo "Cacheonly: $cacheonly\n";
+        
         // initial delay
         // subsequent retries will increase * 10 until max delay is surpassed
         // in 1/1000000s of a second
-
         if(isset($argv[5])){
             $delay = $argv[5];
         }
         else {
             $delay = 1000; // initial retry will be delayed 1/1000 of a second
         }
-
+        echo "Mindelay: $delay\n";
         if(isset($argv[6])){
             $maxDelay = $argv[6];
         }
         else {
             $maxDelay = 1000000; // maximum retry delay before giving up
         }
-
+        echo "Maxdelay: $maxDelay\n";
     }
     // use form input if it exists
     elseif (isset($_GET["user"]) && isset($_GET["pwd"]) && isset($_GET["idlist"]) && isset($_GET["cacheonly"])) {
@@ -43,22 +53,18 @@ if ($argc > 1 || isset($_GET["user"])) {
         $pwd = $_GET["pwd"];
         $cacheonly = $_GET["cacheonly"];
         $idListUrl = $_GET["idlist"];
-
         if(isset($_GET["delay"])){
             $delay = $_GET["delay"];
         }
         else {
             $delay = 1000; // initial retry will be delayed 1/1000 of a second
         }
-
         if(isset($_GET["maxdelay"])){
             $maxDelay = $_GET["maxdelay"];
         }
         else {
             $maxDelay = 1000000; // maximum retry delay before giving up
         }
-
-
     }
     $idlist = file_get_contents($idListUrl);
 
@@ -81,10 +87,11 @@ if ($argc > 1 || isset($_GET["user"])) {
         // cut off the first line
         $result .= substr($returned, stripos($returned,"\n"));
     }
+    /*  
     print '<?xml version="1.0" encoding="UTF-8"?>
     <body>' . $result . '
     </body>';
-
+    */
 }
 
 //provide input form
@@ -116,6 +123,8 @@ function do_post_request($url, $data, $delay, $maxDelay, $optional_headers = nul
                   'method' => 'POST',
                   'content' => $data
     ));
+//    echo "Params: \n";
+    var_dump($params);
     if ($optional_headers !== null) {
         $params['http']['header'] = $optional_headers;
     }
@@ -138,6 +147,7 @@ function do_post_request($url, $data, $delay, $maxDelay, $optional_headers = nul
             return do_post_request($url, $data, $delay*10, $maxDelay);
         }
     }
+//    echo "Response: $response\n";
     return $response;
 }
 
